@@ -1,0 +1,74 @@
+# Version 0.0.1
+FROM centos:7
+MAINTAINER Leif Madsen <leif.madsen@avoxi.com>
+ENV REFRESHED_AT 2015-11-09
+
+RUN mkdir /asterisk/
+WORKDIR /asterisk
+COPY rpms/*.rpm ./
+RUN yum install epel-release -y
+RUN yum localinstall -y asterisk-13.3.2-1.el7.2.x86_64.rpm \
+        asterisk-ael-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-alsa-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-calendar-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-corosync-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-curl-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-dahdi-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-debuginfo-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-devel-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-fax-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-festival-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-hep-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-iax2-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-jack-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-ldap-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-lua-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-mgcp-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-minivm-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-misdn-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-mobile-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-mysql-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-odbc-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-ooh323-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-oss-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-phone-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-pjsip-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-portaudio-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-postgresql-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-radius-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-sip-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-skinny-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-snmp-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-sqlite-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-tds-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-unistim-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-voicemail-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-voicemail-plain-13.3.2-1.el7.2.x86_64.rpm  \
+        asterisk-xmpp-13.3.2-1.el7.2.x86_64.rpm  \
+        dahdi-tools-2.10.0-6.el7.x86_64.rpm  \
+        dahdi-tools-debuginfo-2.10.0-6.el7.x86_64.rpm  \
+        dahdi-tools-devel-2.10.0-6.el7.x86_64.rpm  \
+        dahdi-tools-libs-2.10.0-6.el7.x86_64.rpm  \
+        libpri-1.4.13-6.el7.x86_64.rpm  \
+        libpri-debuginfo-1.4.13-6.el7.x86_64.rpm  \
+        libpri-devel-1.4.13-6.el7.x86_64.rpm  \
+        libresample-0.1.3-21.el7.x86_64.rpm  \
+        libresample-debuginfo-0.1.3-21.el7.x86_64.rpm  \
+        libresample-devel-0.1.3-21.el7.x86_64.rpm  \
+        libss7-1.0.2-9.el7.x86_64.rpm  \
+        libss7-debuginfo-1.0.2-9.el7.x86_64.rpm  \
+        libss7-devel-1.0.2-9.el7.x86_64.rpm  \
+        speex-1.2-0.24.rc2.el7.x86_64.rpm  \
+        speex-debuginfo-1.2-0.24.rc2.el7.x86_64.rpm  \
+        speex-devel-1.2-0.24.rc2.el7.x86_64.rpm  \
+        speexdsp-1.2-0.8.rc3.el7.x86_64.rpm  \
+        speexdsp-debuginfo-1.2-0.8.rc3.el7.x86_64.rpm  \
+        speexdsp-devel-1.2-0.8.rc3.el7.x86_64.rpm  \
+        speex-tools-1.2-0.24.rc2.el7.x86_64.rpm \
+    && yum clean all && yum autoremove -y
+
+COPY modules.conf /etc/asterisk/modules.conf
+
+WORKDIR /tmp
+ENTRYPOINT ["/usr/sbin/asterisk"]
+CMD ["-c", "-vvvv", "-g"]

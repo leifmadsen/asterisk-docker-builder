@@ -1,0 +1,22 @@
+FROM centos:7
+MAINTAINER Leif Madsen <leif.madsen@avoxi.com>
+ENV PKG_APP yum
+ENV BUILD_PATH /buildrpms
+ENV DIST_TAG el7
+
+RUN $PKG_APP clean all
+RUN $PKG_APP update -y
+RUN $PKG_APP install epel-release -y
+RUN $PKG_APP install fedpkg createrepo -y
+
+ADD local.repo /etc/yum.repos.d/
+
+RUN mkdir -p $BUILD_PATH/localrepo
+WORKDIR $BUILD_PATH/localrepo
+RUN createrepo .
+
+VOLUME ["$BUILD_PATH"]
+WORKDIR $BUILD_PATH
+
+ADD buildit.sh $BUILD_PATH
+ENTRYPOINT ./buildit.sh
