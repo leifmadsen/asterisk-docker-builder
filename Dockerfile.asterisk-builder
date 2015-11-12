@@ -1,7 +1,7 @@
 FROM centos:7
 MAINTAINER Leif Madsen <leif.madsen@avoxi.com>
 ENV PKG_APP yum
-ENV BUILD_PATH /buildrpms
+ENV BUILD_PATH /buildrpms/
 ENV DIST_TAG el7
 
 RUN $PKG_APP clean all
